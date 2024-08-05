@@ -1,0 +1,163 @@
+{% extends "../__layout__.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static './css/datatable.min.css' %}">
+<style>
+    #search {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        -ms-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+    
+        -webkit-transform: translate(0px, -100%) scale(0, 0);
+        -moz-transform: translate(0px, -100%) scale(0, 0);
+        -o-transform: translate(0px, -100%) scale(0, 0);
+        -ms-transform: translate(0px, -100%) scale(0, 0);
+        transform: translate(0px, -100%) scale(0, 0);
+        
+        opacity: 0;
+    }
+    
+    #search.open {
+        -webkit-transform: translate(0px, 0px) scale(1, 1);
+        -moz-transform: translate(0px, 0px) scale(1, 1);
+        -o-transform: translate(0px, 0px) scale(1, 1);
+        -ms-transform: translate(0px, 0px) scale(1, 1);
+        transform: translate(0px, 0px) scale(1, 1); 
+        opacity: 1;
+    }
+    
+    #search input[type="search"] {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        color: rgb(255, 255, 255);
+        background: rgba(0, 0, 0, 0);
+        font-size: 60px;
+        font-weight: 300;
+        text-align: center;
+        border: 0px;
+        margin: 0px auto;
+        margin-top: -51px;
+        padding-left: 30px;
+        padding-right: 30px;
+        outline: none;
+    }
+    #search .btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: 61px;
+        margin-left: -45px;
+    }
+    #search .close {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        color: #fff;
+        background-color: #428bca;
+        border:none;
+        opacity: 1;
+        padding: 10px 17px;
+        font-size: 15px;
+        width:40px;
+        height:40px;
+        display:flex;
+        align-items:center;
+    }
+</style>
+{% endblock styles %}
+{% block title %} Product | Index{% endblock %}
+{% block navbarlinksright %}
+<li class="nav-item"><a href="#search" class="nav-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+      </svg>
+</a></li>
+{% endblock navbarlinksright %}
+{% block content %}
+<div class="container-fluid">
+    <h1 class="my-3">Products: </h1>
+    <table id="productsTable" class="table" style="width:100%">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Dosage Form</th>
+                <th>Active Ingredients</th>
+                <th>Decree No</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>
+                    <a href="{% url 'product:detail_product' product.id %}">
+                    {{ product.name }}
+                    </a>
+                </td>
+                <td>{{ product.dosage_form }}</td>
+                <td>{{ product.active_ingredients }}</td>
+                <td>{{ product.decree_no }}</td>
+            </tr>
+            {% empty %}
+            <td>No Products</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+<div id="search">
+    <button type="button" class="close">x</button>
+    <form method="GET">
+        <input name="q" type="search" value="" placeholder="type keyword(s) here" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+{% include "../bits/creation_footer.html" %}
+{% endblock %}
+{% block scripts %}
+<script src="{% static './js/datatable.min.js' %}"></script>
+<script>
+    let productsTable = new DataTable('#productsTable');
+    $(function () {
+        $('a[href="#search"]').on('click', function(event) {
+            event.preventDefault();
+            $('#search').addClass('open');
+            $('#search > form > input[type="search"]').focus();
+        });
+        
+        $('#search, #search button.close').on('click keyup', function(event) {
+            if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
+                $(this).removeClass('open');
+            }
+        });
+    });
+</script>
+{% endblock scripts %}

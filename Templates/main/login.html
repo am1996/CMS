@@ -1,0 +1,12 @@
+{% extends "../__layout__.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="my-5 text-center">Login To CMS</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="btn btn-success btn-lg" type="submit" value="login"/>
+    </form>
+</div>
+{% endblock %}

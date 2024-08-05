@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "*.html": "django-html"
+    },
+    "emmet.includeLanguages": {
+        "django-html": "html",
+    },
+    "python.languageServer": "Pylance",
+    "python.analysis.stubPath": "",
+    "python.analysis.indexing": true,
+    "beautify.language": {
+        "html": [
+            "htm",
+            "html",
+            "django-html"
+        ]
+    },
+}

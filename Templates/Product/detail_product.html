@@ -1,0 +1,47 @@
+{% extends "../__layout__.html" %}
+{% block title %}Product | Detail{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="mt-4 p-5 rounded">
+        <h1>{{ product.basic_data.name }}</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">Dosage Form</th>
+                    <td>{{ product.basic_data.dosage_form }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Active Ingredients</th>
+                    <td>{{ product.basic_data.active_ingredients }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Decree Number</th>
+                    <td>{{ product.basic_data.decree_no }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="mt-4 p-5 rounded">
+        <h1>Name Approval</h1>
+        <table class="table">
+            <tbody>
+                {% with product.basic_data.nameapproval_set.all|first as nameapproval %}
+                <tr>
+                    <th scope="row">English Name</th>
+                    <td>{{ nameapproval.english_name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Arabic Name</th>
+                    <td>{{ nameapproval.arabic_name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Attachment</th>
+                    <td><a href="/media/{{ nameapproval.attachment }}">Attachment</a></td>
+                </tr>
+                {% endwith %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
