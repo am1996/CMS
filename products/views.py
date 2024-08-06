@@ -12,8 +12,8 @@ class DetailProduct(DetailView):
 
     def get_object(self):
         pk = self.kwargs["pk"]
-        product = {}
-        product["basic_data"] = Product.objects.get(pk=pk)
+        product= Product.objects.prefetch_related().get(pk=pk)
+        print(product.nameapproval_set.last())
         return product
 
 class ListProducts(ListView):

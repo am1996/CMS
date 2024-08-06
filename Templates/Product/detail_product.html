@@ -1,32 +1,33 @@
 {% extends "../__layout__.html" %}
+{% load static %}
 {% block title %}Product | Detail{% endblock %}
 {% block content %}
 <div class="container">
-    <div class="mt-4 p-5 rounded">
-        <h1>{{ product.basic_data.name }}</h1>
+    <div class="p-5 rounded">
+        <h1>{{ product.name }}</h1>
         <table class="table">
             <tbody>
                 <tr>
                     <th scope="row">Dosage Form</th>
-                    <td>{{ product.basic_data.dosage_form }}</td>
+                    <td>{{ product.dosage_form }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Active Ingredients</th>
-                    <td>{{ product.basic_data.active_ingredients }}</td>
+                    <td>{{ product.active_ingredients }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Decree Number</th>
-                    <td>{{ product.basic_data.decree_no }}</td>
+                    <td>{{ product.decree_no }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
     <hr>
-    <div class="mt-4 p-5 rounded">
+    <div class="p-5 rounded">
         <h1>Name Approval</h1>
         <table class="table">
             <tbody>
-                {% with product.basic_data.nameapproval_set.all|first as nameapproval %}
+                {% with product.nameapproval_set.last as nameapproval %}
                 <tr>
                     <th scope="row">English Name</th>
                     <td>{{ nameapproval.english_name }}</td>
@@ -37,11 +38,52 @@
                 </tr>
                 <tr>
                     <th scope="row">Attachment</th>
-                    <td><a href="/media/{{ nameapproval.attachment }}">Attachment</a></td>
+                    <td><a id="approvalName" target="_blank" href="/media/{{ nameapproval.attachment }}">Attachment</a>
+                    </td>
                 </tr>
                 {% endwith %}
+                <tr>
+                    <td colspan="2"><a target="_blank" href="/media/{{ nameapproval.attachment }}">Show More...</a></td>
+                </tr>
             </tbody>
         </table>
     </div>
 </div>
+<canvas id="pdf-canvas" style="height:90vh;width:90vw"></canvas>
 {% endblock %}
+
+{% block scripts %}
+<script src="{% static "./js/pdfjs/pdf.min.js" %}"></script>
+<script src="{% static "./js/pdfjs/pdf.worker.min.js" %}"></script>
+<script>
+    const canvas = document.getElementById('pdf-canvas');
+    const ctx = canvas.getContext('2d');
+    let mediaPDF = document.getElementById("approvalName").getAttribute("href");
+
+    document.onreadystatechange = function (event) {
+        if (event.state == "complete") {
+            pdfjsLib.getDocument(
+                    "/media/3/NameApproval/16f2e331-ffc6-4dfe-af3b-d84378139e83.pdf").promise
+                .catch(function(error){
+                    console.log(error);
+                }).then(function (pdf) {
+                    pdf.getPage(1).then(function (page) {
+                        const viewport = page.getViewport({
+                            scale: 1.0
+                        });
+                        canvas.width = viewport.width;
+                        canvas.height = viewport.height;
+
+                        const renderContext = {
+                            canvasContext: ctx,
+                            viewport: viewport
+                        };
+                        page.render(renderContext).promise.then(function () {
+                            console.log(1)
+                        });
+                    });
+                });
+        }
+    }
+</script>
+{% endblock scripts %}
