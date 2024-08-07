@@ -30,8 +30,7 @@ class Product(models.Model):
 
 class CompositionApproval(models.Model):
     issue_date = models.DateField(null=True)
-    attachment = models.FileField(upload_to=lambda instance,filename: 
-                                  upload_to(instance,filename,type(instance).__name__ ))
+    attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     def __str__(self):
         return str(self.issue_date)
@@ -44,8 +43,7 @@ class BoxApproval(models.Model):
     application_no = models.IntegerField()
     box_request_number = models.IntegerField()
     issue_date = models.DateField()
-    attachment = models.FileField(upload_to=lambda instance,filename: 
-                                  upload_to(instance,filename,type(instance).__name__ ))
+    attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
     def __str__(self):
@@ -54,10 +52,10 @@ class BoxApproval(models.Model):
 class NameApproval(models.Model):
     english_name = models.CharField(max_length=1000)
     arabic_name =  models.CharField(max_length=1000)
-    attachment = models.FileField(upload_to=lambda instance,filename: 
-                                  upload_to(instance,filename,"NameApproval"))
+    issuance_date = models.DateField(null=True)
+    attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
-
+    
     def __str__(self):
         return self.english_name
 
@@ -73,8 +71,7 @@ class StabilityApproval(models.Model):
         (24,"24 Months"),
         (36,"36 Months"),
     ],default=3,max_length=2)
-    attachment = models.FileField(upload_to=lambda instance,filename: 
-                                  upload_to(instance,filename,type(instance).__name__ ))
+    attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
     def __str__(self):
@@ -85,8 +82,7 @@ class ComparativeApproval(models.Model):
     brand_name = models.CharField(max_length=100)
     study_reason = models.CharField(max_length=1000)
     raw_material_supplier_name = models.CharField(max_length=200)
-    attachment = models.FileField(upload_to=lambda instance,filename: 
-                                  upload_to(instance,filename,type(instance).__name__ ))
+    attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
     def __str__(self):
@@ -108,8 +104,7 @@ class CADCApproval(models.Model):
         (5,"Other")
     ],default=4,max_length=1)
     upload_date = models.DateTimeField(auto_now_add=True)
-    attachment = models.FileField(upload_to=lambda instance,filename: 
-                                  upload_to(instance,filename,type(instance).__name__ ))
+    attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     def __str__(self):
         return self.batch_no + " | "  + self.sic
@@ -129,8 +124,7 @@ class RegisterationLicense(models.Model):
     manufacturer_of_active_substance = models.CharField(max_length=3000)
     notes = models.TextField()
     issuance_date = models.DateField()
-    attachment = models.FileField(upload_to=lambda instance,filename: 
-                                  upload_to(instance,filename,type(instance).__name__ ))
+    attachment = models.FileField(upload_to=upload_to)
     decree_no = models.ForeignKey(RegisterationDecree,on_delete=models.CASCADE)
     registeration_number = models.CharField(max_length=20)
     invalidation_date = models.DateField()
@@ -142,8 +136,7 @@ class RegisterationLicense(models.Model):
 class InsertApproval(models.Model):
     approval_date = models.DateField(null=True)
     revised_by = models.CharField(max_length=100)
-    attachment = models.FileField(upload_to=lambda instance,filename: 
-                                  upload_to(instance,filename,type(instance).__name__ ))
+    attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     def __str__(self):
         return str(self.id)
@@ -153,14 +146,12 @@ class PriceApproval(models.Model):
     unit = models.CharField(max_length=100)
     issuance_no = models.IntegerField()
     issuance_date = models.DateField()
-    attachment = models.FileField(upload_to=lambda instance,filename: 
-                                  upload_to(instance,filename,type(instance).__name__ ))
+    attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
 class LayoutApproval(models.Model):
     approval_date = models.DateField(null=True)
-    attachment = models.FileField(upload_to=lambda instance,filename: 
-                                  upload_to(instance,filename,type(instance).__name__ ))
+    attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     def __str__(self):
         return str(self.id)

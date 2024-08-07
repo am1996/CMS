@@ -1,4 +1,4 @@
-{% extends "../__layout__.html" %}
+{% extends "../../__layout__.html" %}
 {% load static %}
 {% block styles %}
 <link rel="stylesheet" href="{% static './css/datatable.min.css' %}">
@@ -13,30 +13,30 @@
 {% endblock navbarlinksright %}
 {% block content %}
 <div class="container-fluid">
-    <h1 class="my-3">Products: </h1>
-    <table id="productsTable" class="table" style="width:100%">
+    <h1 class="my-3">Name Approvals: </h1>
+    <table id="boxapprovalsTable" class="table" style="width:100%">
         <thead>
             <tr>
-                <th>Product Name</th>
-                <th>Dosage Form</th>
-                <th>Active Ingredients</th>
-                <th>Decree No</th>
+                <th>Generic Name And Strength</th>
+                <th>Application No</th>
+                <th>Issuance Date</th>
+                <th>Attachment</th>
             </tr>
         </thead>
         <tbody>
-        {% for product in products %}
+        {% for box_approval in box_approvals %}
             <tr>
                 <td>
-                    <a href="{% url 'product:detail_product' product.id %}">
-                    {{ product.name }}
+                    <a href="{% url 'product:list_boxapproval' pk=box_approval.pk %}">
+                    {{ box_approval.generic_name_and_strength }}
                     </a>
                 </td>
-                <td>{{ product.dosage_form }}</td>
-                <td>{{ product.active_ingredients }}</td>
-                <td>{{ product.decree_no }}</td>
+                <td>{{ box_approval.application_no }}</td>
+                <td>{{ box_approval.issue_date }}</td>
+                <td><a target="_blank" href="/media/{{ box_approval.attachment }}">Attachment</a></td>
             </tr>
             {% empty %}
-            <td>No Products</td>
+            <td>No Box Approvals</td>
             <td></td>
             <td></td>
             <td></td>
@@ -61,13 +61,13 @@
         </span>
     </div>
 </div>
-{% include "../bits/search_window.html" %}
-{% include "../bits/creation_footer.html" %}
+{% include "../../bits/search_window.html" %}
+{% include "../../bits/creation_footer.html" %}
 {% endblock %}
 {% block scripts %}
 <script src="{% static './js/datatable.min.js' %}"></script>
 <script>
-    let productsTable = new DataTable('#productsTable');
+    let boxapprovalsTable = new DataTable('#boxapprovalsTable');
     $(function () {
         $('a[href="#search"]').on('click', function(event) {
             event.preventDefault();
