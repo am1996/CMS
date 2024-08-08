@@ -3,8 +3,8 @@
 {% load sharedutils  %}
 {% block title %}Product | Detail{% endblock %}
 {% block content %}
-<div class="container">
-    <div class="p-5 rounded">
+<div class="container-fluid">
+    <div class="my-5 rounded">
         <h1>{{ product.name }}</h1>
         <table class="table">
             <tbody>
@@ -16,7 +16,7 @@
                     <th scope="row">Active Ingredients</th>
                     <td>
                         {% for API in product.active_ingredients|split:","  %}
-                            <b class="badge bg-success">{{API}}</b>
+                        <b class="badge bg-success">{{API}}</b>
                         {% endfor %}
                     </td>
                 </tr>
@@ -28,7 +28,9 @@
         </table>
     </div>
     <hr>
-    <div class="row">
+    <!-- Name Approval & Box Approval -->
+    {% if product.decree_no.decree_no != 296 %}
+    <div class="row pb-2">
         <div class="col-md-6 rounded">
             <h1>Name Approval</h1>
             {% if product.nameapproval_set.last != None %}
@@ -45,18 +47,21 @@
                     </tr>
                     <tr>
                         <th scope="row">Attachment</th>
-                        <td><a id="approvalName" target="_blank" href="/media/{{ nameapproval.attachment }}">Attachment</a>
+                        <td><a id="approvalName" target="_blank"
+                                href="/media/{{ nameapproval.attachment }}">Attachment</a>
                         </td>
                     </tr>
                     {% endwith %}
                     <tr>
-                        <td colspan="2"><a href="{% url 'product:list_nameapproval' pk=product.pk %}">Show More...</a></td>
+                        <td colspan="2"><a href="{% url 'product:list_nameapproval' pk=product.pk %}">Show More...</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
             {% else %}
             <p class="text-center display-5">No name approval...</p>
             {% endif %}
+            <a href="" class="btn btn-success">Add Name Approval</a>
         </div>
         <div class="col-md-6 rounded">
             <h1>Box Approval</h1>
@@ -94,20 +99,110 @@
                     </tr>
                     <tr>
                         <th scope="row">Attachment</th>
-                        <td><a id="boxApproval" target="_blank" href="/media/{{ boxapproval.attachment }}">Attachment</a>
+                        <td><a id="boxApproval" target="_blank"
+                                href="/media/{{ boxapproval.attachment }}">Attachment</a>
                         </td>
                     </tr>
                     {% endwith %}
                     <tr>
-                        <td colspan="2"><a href="{% url 'product:list_boxapproval' pk=product.pk %}">Show More...</a></td>
+                        <td colspan="2"><a href="{% url 'product:list_boxapproval' pk=product.pk %}">Show More...</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
             {% else %}
             <p class="text-center display-5">No Box approval...</p>
             {% endif %}
+            <a href="" class="btn btn-success">Add Box Approval</a>
         </div>
     </div>
+    <hr>
+    {% endif %}
+    <div class="pb-2">
+        <h1>Registeration License</h1>
+        <div class="row rounded">
+            {% if product.registerationlicense_set.last != None %}
+            <table class="table">
+                <tbody>
+                    {% with product.registerationlicense_set.last as registerationlicense %}
+                    <tr>
+                        <th scope="row">Trade Name</th>
+                        <td>{{ registerationlicense.trade_name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Active Ingredinents</th>
+                        <td>
+                            {% for API in registerationlicense.active_ingredients|split:"," %}
+                            <b class="badge bg-success">{{ API }}</b>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Physical Characters:</th>
+                        <td>{{ registerationlicense.physical_character }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Shelf Life:</th>
+                        <td>{{ registerationlicense.shelf_life }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Storage Conditions:</th>
+                        <td>{{ registerationlicense.storage_condition }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Approved Pack:</th>
+                        <td>{{ registerationlicense.approved_pack }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Type of License:</th>
+                        <td>{{ registerationlicense.type_of_license }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Manufacturer:</th>
+                        <td>{{ registerationlicense.manufacturer }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Storage Site:</th>
+                        <td>{{ registerationlicense.storage_site }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Manufacturers Of Active Substance:</th>
+                        <td>
+                            {% for manufacturer in registerationlicense.manufacturer_of_active_substance|split:","  %}
+                                <b class="badge bg-success">{{ manufacturer }}</b>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Notes:</th>
+                        <td>
+                            {{ registerationlicense.notes }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Notes:</th>
+                        <td>
+                            {{ registerationlicense.issuance_date }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Attachment</th>
+                        <td><a id="registerationlicense" target="_blank"
+                                href="/media/{{ registerationlicense.attachment }}">Attachment</a>
+                        </td>
+                    </tr>
+                    {% endwith %}
+                    <tr>
+                        <td colspan="2"><a href="{% url 'product:list_nameapproval' pk=product.pk %}">Show More...</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-center display-5">No Registeration License Added Yet...</p>
+            {% endif %}
+        </div>
+        <a href="" class="btn btn-success">Add Registeration License</a>
     </div>
 </div>
 {% endblock %}

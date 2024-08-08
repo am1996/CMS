@@ -17,6 +17,8 @@ class RegisterationDecree(models.Model):
         return str(self.decree_no) + "/" + str(self.year)
 
 class Product(models.Model):
+    class Meta:
+        ordering = ["name"]
     name = models.CharField(max_length=1000)
     dosage_form = models.ForeignKey(DosageForm, on_delete=models.CASCADE,default=1)
     active_ingredients = models.CharField(max_length=1000)
@@ -32,6 +34,10 @@ class CompositionApproval(models.Model):
     issue_date = models.DateField(null=True)
     attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    status = models.CharField(choices=[
+        (1,"Active"),
+        (0,"Superseded")
+    ],default=1,max_length=1)
     def __str__(self):
         return str(self.issue_date)
 
@@ -122,7 +128,7 @@ class RegisterationLicense(models.Model):
     manufacturer = models.CharField(max_length=1000)
     storage_site = models.CharField(max_length=1000)
     manufacturer_of_active_substance = models.CharField(max_length=3000)
-    notes = models.TextField()
+    notes = models.TextField(null=True)
     issuance_date = models.DateField()
     attachment = models.FileField(upload_to=upload_to)
     decree_no = models.ForeignKey(RegisterationDecree,on_delete=models.CASCADE)
@@ -131,7 +137,7 @@ class RegisterationLicense(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.registeration_number+ " | " + self.invalidation_date
+        return str(self.registeration_number) + " | " + str(self.invalidation_date)
 
 class InsertApproval(models.Model):
     approval_date = models.DateField(null=True)
