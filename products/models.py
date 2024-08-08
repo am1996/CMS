@@ -147,6 +147,7 @@ class PriceApproval(models.Model):
     issuance_no = models.IntegerField()
     issuance_date = models.DateField()
     attachment = models.FileField(upload_to=upload_to)
+    notes = models.TextField(null=True)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
 class LayoutApproval(models.Model):
@@ -163,6 +164,7 @@ auditlog.register(CompositionApproval)
 auditlog.register(StabilityApproval)
 auditlog.register(InsertApproval)
 auditlog.register(LayoutApproval)
+auditlog.register(PriceApproval)
 auditlog.register(CADCApproval)
 auditlog.register(NameApproval)
 auditlog.register(BoxApproval)
