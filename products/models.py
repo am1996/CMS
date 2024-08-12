@@ -69,19 +69,19 @@ class StabilityApproval(models.Model):
     batch_no = models.CharField(max_length=100)
     physical_character = models.CharField(max_length=400)
     pack = models.CharField(max_length=400)
-    study_length = models.CharField(choices=[
+    study_length = models.IntegerField(choices=[
         (3,"3 Months"),
         (6,"6 Months"),
         (12,"12 Months"),
         (18,"18 Months"),
         (24,"24 Months"),
         (36,"36 Months"),
-    ],default=3,max_length=2)
+    ],default=3)
     attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.batch_no + " | " + self.study_length
+        return str(self.batch_no) + " | " + str(self.study_length)
 
 class ComparativeApproval(models.Model):
     batch_no = models.CharField(max_length=100)

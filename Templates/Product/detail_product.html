@@ -3,7 +3,7 @@
 {% load sharedutils  %}
 {% block title %}Product | Detail{% endblock %}
 {% block content %}
-<div class="container-fluid">
+<div class="container">
     <div class="my-5 rounded">
         <h1>{{ product.name }}</h1>
         <table class="table">
@@ -169,7 +169,7 @@
                         <th scope="row">Manufacturers Of Active Substance:</th>
                         <td>
                             {% for manufacturer in registerationlicense.manufacturer_of_active_substance|split:","  %}
-                                <b class="badge bg-success">{{ manufacturer }}</b>
+                            <b class="badge bg-success">{{ manufacturer }}</b>
                             {% endfor %}
                         </td>
                     </tr>
@@ -203,6 +203,171 @@
             {% endif %}
         </div>
         <a href="" class="btn btn-success">Add Registeration License</a>
+    </div>
+    <div class="accordion" id="Details">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="stabilityHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#StabilityBody" aria-controls="StabilityBody">
+                    Stability Details
+                </button>
+            </h2>
+            <div id="StabilityBody" class="accordion-collapse collapse" aria-labelledby="stabilityHeading"
+                data-bs-parent="#Details">
+                <div class="accordion-body">
+                    {% if product.stabilityapproval_set.last != None %}
+                    <table class="table">
+                        {% with product.stabilityapproval_set.last as stabilityapproval %}
+                        <tbody>
+                            <tr>
+                                <th scope="row">Batch No</th>
+                                <td>{{ stabilityapproval.batch_no }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Physical Character</th>
+                                <td>{{ stabilityapproval.physical_character }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Pack</th>
+                                <td> {{ stabilityapproval.pack }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Study Length</th>
+                                <td> {{ stabilityapproval.study_length }}
+                                    month{{ stabilityapproval.study_length|pluralize:"s" }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Attachment</th>
+                                <td><a id="registerationlicense" target="_blank"
+                                        href="/media/{{ stabilityapproval.attachment }}">Attachment</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><a href="/products/3/nameapprovals">Show More...</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endwith %}
+                        {% else %}
+                        <p class="text-center display-5">No Stability Approval Added Yet...</p>
+                        {% endif %}
+                    </table>
+                    <a href="" class="btn btn-success">Add Stability Approval</a>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#comparativeApproval" aria-expanded="false" aria-controls="comparativeApproval">
+                    Comparative Approval
+                </button>
+            </h2>
+            <div id="comparativeApproval" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                data-bs-parent="#Details">
+                <div class="accordion-body">
+                    {% if product.comparativeapproval_set.last != None %}
+                    <table class="table">
+                        {% with product.comparativeapproval_set.last as comparative_approval %}
+                        <tbody>
+                            <tr>
+                                <th scope="row">Batch No</th>
+                                <td>{{ comparative_approval.batch_no }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Brand Name</th>
+                                <td>{{ comparative_approval.brand_name }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Study Reason</th>
+                                <td> {{ comparative_approval.study_reason }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Raw Material Supplier Name</th>
+                                <td> {{ comparative_approval.raw_material_supplier_name }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Attachment</th>
+                                <td><a id="registerationlicense" target="_blank"
+                                        href="/media/{{ comparative_approval.attachment }}">Attachment</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><a href="/products/3/nameapprovals">Show More...</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endwith %}
+                        {% else %}
+                        <p class="text-center display-5">No Comparative Approval Added Yet...</p>
+                        {% endif %}
+                    </table>
+                    <a href="" class="btn btn-success">Add Comparative Approval</a>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    CADC Approval
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                data-bs-parent="#Details">
+                <div class="accordion-body">
+                    {% if product.cadcaaproval_set.last != None %}
+                    <table class="table">
+                        {% with product.cadcapproval_set.last as cadcapproval %}
+                        <tbody>
+                            <tr>
+                                <th scope="row">SIC</th>
+                                <td>{{ cadcapproval.sic }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Batch No</th>
+                                <td>{{ cadcapproval.batch_no }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Result</th>
+                                <td> {{ cadcapproval.result }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Issue Date</th>
+                                <td> {{ cadcapproval.issue_date }}
+                                    month{{ cadcapproval.study_length|pluralize:"s" }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Sampling Reason</th>
+                                <td> {{ cadcapproval.sampling_date }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Attachment</th>
+                                <td><a id="registerationlicense" target="_blank"
+                                        href="/media/{{ cadcapproval.attachment }}">Attachment</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><a href="/products/3/nameapprovals">Show More...</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endwith %}
+                        {% else %}
+                       <p class="text-center display-5">No CADC Approval Added Yet...</p>
+                        {% endif %}
+                    </table>
+                    <a href="" class="btn btn-success">Add CADC Approval</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
