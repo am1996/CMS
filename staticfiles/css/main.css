@@ -1,0 +1,7 @@
+*{
+    overflow-wrap: break-word !important;
+}
+b.badge{
+    display:inline-block;
+    overflow-wrap: break-word !important;
+}

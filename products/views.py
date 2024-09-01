@@ -79,4 +79,13 @@ class CreateNameApproval(CreateView):
         initial["product"] = pk
         return initial
 
+class CreateBoxApproval(CreateView):
+    form_class = NameApprovalForm
+    template_name = "./product/create_product.html"
+
+    def get_initial(self):
+        initial = super().get_initial()
+        pk = self.kwargs.get("pk")
+        initial["product"] = pk
+        return initial
 

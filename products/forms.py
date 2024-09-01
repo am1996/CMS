@@ -29,4 +29,16 @@ class NameApprovalForm(forms.ModelForm):
         model = NameApproval
         fields = "__all__"
 
+class BoxApprovalForm(forms.ModelForm):
+    def __init__(self, *args,**kwargs):
+        super().__init__(*args, **kwargs)
+        self.formname = "Name Approval"    
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+        self.fields["product"].widget.attrs.update({'disabled': ''})
+
+    class Meta:
+        model = BoxApproval
+        fields = "__all__"
+
 
