@@ -1,5 +1,5 @@
 from django.views.generic import CreateView,ListView,DetailView
-from .forms import ProductForm
+from .forms import *
 from .models import *
 from django.db.models import Q
 # Create your views here.
@@ -69,6 +69,14 @@ class CreateProduct(CreateView):
     form_class = ProductForm
     template_name = "./product/create_product.html"
 
+class CreateNameApproval(CreateView):
+    form_class = NameApprovalForm
+    template_name = "./product/create_product.html"
 
+    def get_initial(self):
+        initial = super().get_initial()
+        pk = self.kwargs.get("pk")
+        initial["product"] = pk
+        return initial
 
 
