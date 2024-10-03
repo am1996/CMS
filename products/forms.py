@@ -5,6 +5,17 @@ from django.db.models.base import Model
 from django.forms.utils import ErrorList
 from .models import *
 
+class RegisterationLicenseForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        self.formname = "Registeration License"
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class':'form-control'})
+        self.fields["product"].widget.attrs.update({'disabled': ''})
+    class Meta:
+        model = RegisterationLicense
+        fields = "__all__"
+
 class ProductForm(forms.ModelForm):
     def __init__(self, *args,**kwargs):
         super().__init__(*args, **kwargs)

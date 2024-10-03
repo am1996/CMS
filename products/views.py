@@ -4,6 +4,16 @@ from .models import *
 from django.db.models import Q
 # Create your views here.
 
+class CreateRegisterationLicense(CreateView):
+    form_class = RegisterationLicenseForm
+    template_name = "./product/create_product.html"
+
+    def get_initial(self):
+        initial = super().get_initial()
+        pk = self.kwargs.get("pk")
+        initial["product"] = pk
+        return initial
+    
 class DetailProduct(DetailView):
     model = Product
     context_object_name = "product"

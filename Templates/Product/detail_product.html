@@ -202,7 +202,7 @@
             <p class="text-center display-5">No Registeration License Added Yet...</p>
             {% endif %}
         </div>
-        <a href="" class="btn btn-success">Add Registeration License</a>
+        <a href="{% url 'product:create_registerationlicense' product.pk %}" class="btn btn-success">Add Registeration License</a>
     </div>
     <!-- start of stability comparative CADC approvals -->
     <div class="accordion" id="Details">
