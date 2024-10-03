@@ -15,6 +15,10 @@ class RegisterationLicenseForm(forms.ModelForm):
     class Meta:
         model = RegisterationLicense
         fields = "__all__"
+        widgets = {
+            'invalidation_date': forms.DateInput(attrs={'type': 'date'}),
+            'issuance_date': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 class ProductForm(forms.ModelForm):
     def __init__(self, *args,**kwargs):
@@ -34,11 +38,17 @@ class NameApprovalForm(forms.ModelForm):
         self.formname = "Name Approval"    
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
-        self.fields["product"].widget.attrs.update({'disabled': ''})
+        self.fields["product"].widget.attrs.update({'hidden': ''})
+    
+    def full_clean(self) -> None:
+        return super().full_clean()
 
     class Meta:
         model = NameApproval
         fields = "__all__"
+        widgets = {
+            "issuance_date":forms.DateInput(attrs={'type':'date'})
+        }
 
 class BoxApprovalForm(forms.ModelForm):
     def __init__(self, *args,**kwargs):

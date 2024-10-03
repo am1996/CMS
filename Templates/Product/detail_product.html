@@ -202,7 +202,8 @@
             <p class="text-center display-5">No Registeration License Added Yet...</p>
             {% endif %}
         </div>
-        <a href="{% url 'product:create_registerationlicense' product.pk %}" class="btn btn-success">Add Registeration License</a>
+        <a href="{% url 'product:create_registerationlicense' product.pk %}" class="btn btn-success">Add Registeration
+            License</a>
     </div>
     <!-- start of stability comparative CADC approvals -->
     <div class="accordion" id="Details">
@@ -213,8 +214,7 @@
                     Stability Details
                 </button>
             </h2>
-            <div id="StabilityBody" class="accordion-collapse collapse" 
-                data-bs-parent="#Details">
+            <div id="StabilityBody" class="accordion-collapse collapse" data-bs-parent="#Details">
                 <div class="accordion-body">
                     {% if product.stabilityapproval_set.last != None %}
                     <table class="table">
@@ -266,8 +266,7 @@
                     Comparative Approval
                 </button>
             </h2>
-            <div id="comparativeApproval" class="accordion-collapse collapse" 
-                data-bs-parent="#Details">
+            <div id="comparativeApproval" class="accordion-collapse collapse" data-bs-parent="#Details">
                 <div class="accordion-body">
                     {% if product.comparativeapproval_set.last != None %}
                     <table class="table">
@@ -318,8 +317,7 @@
                     CADC Approval
                 </button>
             </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" 
-                data-bs-parent="#Details">
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#Details">
                 <div class="accordion-body">
                     {% if product.cadcaaproval_set.last != None %}
                     <table class="table">
@@ -381,8 +379,7 @@
                     Price Approval
                 </button>
             </h2>
-            <div id="PriceApproval" class="accordion-collapse collapse" 
-                data-bs-parent="#Details">
+            <div id="PriceApproval" class="accordion-collapse collapse" data-bs-parent="#Details">
                 <div class="accordion-body">
                     {% if product.priceapproval_set.last != None %}
                     <table class="table">
@@ -438,8 +435,7 @@
                     Insert Approval
                 </button>
             </h2>
-            <div id="InsertApproval" class="accordion-collapse collapse" 
-                data-bs-parent="#Details">
+            <div id="InsertApproval" class="accordion-collapse collapse" data-bs-parent="#Details">
                 <div class="accordion-body">
                     {% if product.insertapproval_set.last != None %}
                     <table class="table">
@@ -480,8 +476,7 @@
                     Layout Approval
                 </button>
             </h2>
-            <div id="LayoutApproval" class="accordion-collapse collapse" 
-                data-bs-parent="#Details">
+            <div id="LayoutApproval" class="accordion-collapse collapse" data-bs-parent="#Details">
                 <div class="accordion-body">
                     {% if product.cadcaaproval_set.last != None %}
                     <table class="table">
@@ -530,7 +525,7 @@
                     <a href="" class="btn btn-success">Add Layout Approval</a>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>

@@ -1,3 +1,5 @@
+from django.forms import BaseModelForm
+from django.http import HttpResponse
 from django.views.generic import CreateView,ListView,DetailView
 from .forms import *
 from .models import *
@@ -82,6 +84,10 @@ class CreateProduct(CreateView):
 class CreateNameApproval(CreateView):
     form_class = NameApprovalForm
     template_name = "./product/create_product.html"
+
+
+    def form_invalid(self, form: BaseModelForm) -> HttpResponse:
+        return self.render_to_response(self.get_context_data(form=form, initial=self.get_initial()))
 
     def get_initial(self):
         initial = super().get_initial()
