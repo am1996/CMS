@@ -61,6 +61,9 @@ class NameApproval(models.Model):
     issuance_date = models.DateField(null=True)
     attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse("product:detail_nameapproval", kwargs={"name_approval_pk": self.pk,"pk":self.product.id})
     
     def __str__(self):
         return self.english_name

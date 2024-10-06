@@ -1,5 +1,9 @@
+from typing import Any
+from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView,ListView,DetailView
 from .forms import *
 from .models import *
@@ -81,19 +85,31 @@ class CreateProduct(CreateView):
     form_class = ProductForm
     template_name = "./product/create_product.html"
 
+class DetailNameApproval(DetailView):
+    template_name = "./product/detail.html"
+    model = NameApproval
+
+    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
+        pk = self.kwargs.get("pk")
+        pk_nameapproval = self.kwargs.get("name_approval_pk")
+        try:
+            return NameApproval.objects.get(pk=pk,product=pk_nameapproval)
+        except NameApproval.DoesNotExist:
+            raise Http404("Name Approval doesn't exist.")
+
 class CreateNameApproval(CreateView):
     form_class = NameApprovalForm
     template_name = "./product/create_product.html"
-
+    model = NameApproval
 
     def form_invalid(self, form: BaseModelForm) -> HttpResponse:
+        print(form.errors.as_data())
         return self.render_to_response(self.get_context_data(form=form, initial=self.get_initial()))
 
-    def get_initial(self):
-        initial = super().get_initial()
-        pk = self.kwargs.get("pk")
-        initial["product"] = pk
-        return initial
+    def form_valid(self, form):
+        product = get_object_or_404(Product, id=self.kwargs['pk'])
+        form.instance.product = product
+        return super().form_valid(form)
 
 class CreateBoxApproval(CreateView):
     form_class = NameApprovalForm
