@@ -1,8 +1,11 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 from auditlog.registry import auditlog
+from django.forms import ValidationError
 from django.urls import reverse
 from CMS.sharedutils import upload_to
+
 # Your other model definitions
 class DosageForm(models.Model):
     dosage_form = models.CharField(max_length=300)
@@ -52,6 +55,10 @@ class BoxApproval(models.Model):
     attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
+    def get_absolute_url(self):
+        return reverse("product:detail_boxapproval", kwargs={"pk": self.product.pk,"ba_pk":self.pk})
+    
+
     def __str__(self):
         return self.generic_name_and_strength
 
@@ -61,6 +68,11 @@ class NameApproval(models.Model):
     issuance_date = models.DateField(null=True)
     attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
+
+    def clean(self) -> None:
+        if self.issuance_date > timezone.now().date():
+            raise ValidationError("The issuance date can't be in the future")
+        return super().clean()
 
     def get_absolute_url(self):
         return reverse("product:detail_nameapproval", kwargs={"name_approval_pk": self.pk,"pk":self.product.id})
@@ -139,8 +151,20 @@ class RegisterationLicense(models.Model):
     invalidation_date = models.DateField()
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
+
+    def clean(self) -> None:
+        if self.issuance_date > timezone.now().date():
+            raise ValidationError("Issuance Date can't be in the future")
+        
+        if self.issuance_date > self.invalidation_date:
+            raise ValidationError("Issuance Date can't be higher than Invalidation date.")
+        return super().clean()
+
     def __str__(self):
         return str(self.registeration_number) + " | " + str(self.invalidation_date)
+    
+    def get_absolute_url(self):
+        return reverse("product:detail_registerationlicense", kwargs={"rl_pk": self.pk,"pk":self.product.id})
 
 class InsertApproval(models.Model):
     approval_date = models.DateField(null=True)
@@ -165,7 +189,7 @@ class LayoutApproval(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     def __str__(self):
         return str(self.id)
-    
+
 auditlog.register(RegisterationLicense)
 auditlog.register(ComparativeApproval)
 auditlog.register(RegisterationDecree)

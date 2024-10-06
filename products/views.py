@@ -14,12 +14,21 @@ class CreateRegisterationLicense(CreateView):
     form_class = RegisterationLicenseForm
     template_name = "./product/create_product.html"
 
-    def get_initial(self):
-        initial = super().get_initial()
-        pk = self.kwargs.get("pk")
-        initial["product"] = pk
-        return initial
+    def form_valid(self, form):
+        product = get_object_or_404(Product, id=self.kwargs['pk'])
+        form.instance.product = product
+        return super().form_valid(form)
     
+class DetailRegisterationLicense(DetailView):
+    model = RegisterationLicense
+    template_name = "./product/registeration_license/detail.html"
+    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
+        pk = self.kwargs.get("rl_pk")
+        try:
+            return RegisterationLicense.objects.get(pk=pk)
+        except RegisterationLicense.DoesNotExist:
+            raise Http404("Registeration license doesn't exist.")
+
 class DetailProduct(DetailView):
     model = Product
     context_object_name = "product"
@@ -46,6 +55,26 @@ class ListBoxApproval(ListView):
             )
         else:
             return BoxApproval.objects.filter(product__pk=self.kwargs["pk"])
+
+class DetailBoxApproval(DetailView):
+    model = BoxApproval
+    template_name = "./product/box_approval/detail.html"
+    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
+
+        pk = self.kwargs.get("ba_pk")
+        try:
+            return BoxApproval.objects.get(pk=pk)
+        except NameApproval.DoesNotExist:
+            raise Http404("Name Approval doesn't exist.")
+
+class CreateBoxApproval(CreateView):
+    form_class = BoxApprovalForm
+    template_name = "./product/create_product.html"
+
+    def form_valid(self, form):
+        product = get_object_or_404(Product, id=self.kwargs['pk'])
+        form.instance.product = product
+        return super().form_valid(form)
 
 class ListNameApproval(ListView):
     model = NameApproval
@@ -86,14 +115,13 @@ class CreateProduct(CreateView):
     template_name = "./product/create_product.html"
 
 class DetailNameApproval(DetailView):
-    template_name = "./product/detail.html"
+    template_name = "./product/name_approval/detail.html"
     model = NameApproval
 
     def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
-        pk = self.kwargs.get("pk")
-        pk_nameapproval = self.kwargs.get("name_approval_pk")
+        pk = self.kwargs.get("name_approval_pk")
         try:
-            return NameApproval.objects.get(pk=pk,product=pk_nameapproval)
+            return NameApproval.objects.get(pk=pk)
         except NameApproval.DoesNotExist:
             raise Http404("Name Approval doesn't exist.")
 
@@ -102,22 +130,8 @@ class CreateNameApproval(CreateView):
     template_name = "./product/create_product.html"
     model = NameApproval
 
-    def form_invalid(self, form: BaseModelForm) -> HttpResponse:
-        print(form.errors.as_data())
-        return self.render_to_response(self.get_context_data(form=form, initial=self.get_initial()))
-
     def form_valid(self, form):
         product = get_object_or_404(Product, id=self.kwargs['pk'])
         form.instance.product = product
         return super().form_valid(form)
-
-class CreateBoxApproval(CreateView):
-    form_class = NameApprovalForm
-    template_name = "./product/create_product.html"
-
-    def get_initial(self):
-        initial = super().get_initial()
-        pk = self.kwargs.get("pk")
-        initial["product"] = pk
-        return initial
 

@@ -1,0 +1,44 @@
+{% extends "../../__layout__.html" %}
+{% load static %}
+{% block content %}
+<table class="table">
+    <tbody>
+        {% with object as boxapproval %}
+        <tr>
+            <th scope="row">Generic Name and Strength</th>
+            <td>{{ boxapproval.generic_name_and_strength }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Company Name</th>
+            <td>{{ boxapproval.company_name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Package Information</th>
+            <td>{{ boxapproval.package_information }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Reference Stated in Company Application</th>
+            <td>{{ boxapproval.reference_stated_in_company_application }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Application No</th>
+            <td>{{ boxapproval.application_no }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Box Request No</th>
+            <td>{{ boxapproval.box_request_number }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Issue Date</th>
+            <td>{{ boxapproval.issue_date }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Attachment</th>
+            <td><a id="boxApproval" target="_blank"
+                    href="/media/{{ boxapproval.attachment }}">Attachment</a>
+            </td>
+        </tr>
+        {% endwith %}
+    </tbody>
+</table>
+{% endblock %}

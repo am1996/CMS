@@ -27,7 +27,7 @@
         {% for name_approval in name_approvals %}
             <tr>
                 <td>
-                    <a href="">
+                    <a href="{% url 'product:detail_nameapproval' pk=name_approval.product.pk name_approval_pk=name_approval.pk %}">
                     {{ name_approval.english_name }}
                     </a>
                 </td>

@@ -1,0 +1,28 @@
+{% extends "../../__layout__.html" %}
+{% load static %}
+{% block content %}
+<table class="table">
+    <tbody>
+        {% with object as nameapproval %}
+        <tr>
+            <th scope="row">English Name</th>
+            <td>{{ nameapproval.english_name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Arabic Name</th>
+            <td>{{ nameapproval.arabic_name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Product</th>
+            <td><a href="{{nameapproval.product.pk}}">{{ nameapproval.product }}</a></td>
+        </tr>
+        <tr>
+            <th scope="row">Attachment</th>
+            <td><a id="approvalName" target="_blank"
+                    href="/media/{{ nameapproval.attachment }}">Attachment</a>
+            </td>
+        </tr>
+        {% endwith %}
+    </tbody>
+</table>
+{% endblock %}

@@ -11,10 +11,10 @@ class RegisterationLicenseForm(forms.ModelForm):
         self.formname = "Registeration License"
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class':'form-control'})
-        self.fields["product"].widget.attrs.update({'disabled': ''})
     class Meta:
         model = RegisterationLicense
         fields = "__all__"
+        exclude = ["product"]
         widgets = {
             'invalidation_date': forms.DateInput(attrs={'type': 'date'}),
             'issuance_date': forms.DateInput(attrs={'type': 'date'}),
@@ -49,13 +49,16 @@ class NameApprovalForm(forms.ModelForm):
 class BoxApprovalForm(forms.ModelForm):
     def __init__(self, *args,**kwargs):
         super().__init__(*args, **kwargs)
-        self.formname = "Name Approval"    
+        self.formname = "Box Approval"    
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
-        self.fields["product"].widget.attrs.update({'disabled': ''})
 
     class Meta:
         model = BoxApproval
         fields = "__all__"
+        exclude = ["product"]
+        widgets = {
+            "issue_date":forms.DateInput(attrs={'type':'date'}),
+        }
 
 

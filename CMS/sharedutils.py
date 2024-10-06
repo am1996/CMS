@@ -1,6 +1,5 @@
 import os
 import uuid
-uuid.uuid4()
 
 def upload_to(instance: str, filename: str) -> str:
     # Assuming you have a ForeignKey field named 'category' and a custom subfolder name 'documents'

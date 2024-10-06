@@ -113,7 +113,7 @@
             {% else %}
             <p class="text-center display-5">No Box approval...</p>
             {% endif %}
-            <a href="" class="btn btn-success">Add Box Approval</a>
+            <a href="{% url 'product:create_boxapproval' product.pk %}" class="btn btn-success">Add Box Approval</a>
         </div>
     </div>
     <hr>
