@@ -10,6 +10,10 @@ from .models import *
 from django.db.models import Q
 # Create your views here.
 
+class CreateProduct(CreateView):
+    form_class = ProductForm
+    template_name = "./product/create_product.html"
+
 class CreateRegisterationLicense(CreateView):
     form_class = RegisterationLicenseForm
     template_name = "./product/create_product.html"
@@ -18,7 +22,23 @@ class CreateRegisterationLicense(CreateView):
         product = get_object_or_404(Product, id=self.kwargs['pk'])
         form.instance.product = product
         return super().form_valid(form)
-    
+
+class ListRegisterationLicense(ListView):
+    model = RegisterationLicense
+    context_object_name = "registeration_licenses"
+    paginate_by = 200
+    template_name = "./product/registeration_license/index.html"
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return NameApproval.objects.filter(
+                Q(english_name__icontains=query) |
+                Q(arabic_name__icontains=query) |
+                Q(issuance_date__icontains=query)
+            )
+        else:
+            return RegisterationLicense.objects.filter(product__pk=self.kwargs["pk"])
+
 class DetailRegisterationLicense(DetailView):
     model = RegisterationLicense
     template_name = "./product/registeration_license/detail.html"
@@ -49,9 +69,8 @@ class ListBoxApproval(ListView):
         query = self.request.GET.get('q')
         if query:
             return BoxApproval.objects.filter(
-                Q(english_name__icontains=query) |
-                Q(arabic_name__icontains=query) |
-                Q(issuance_date__icontains=query)
+                Q(application_no__icontains=query) |
+                Q(box_request_number__icontains=query)
             )
         else:
             return BoxApproval.objects.filter(product__pk=self.kwargs["pk"])
@@ -109,11 +128,6 @@ class ListProducts(ListView):
         else:
             return Product.objects.all()
 
-
-class CreateProduct(CreateView):
-    form_class = ProductForm
-    template_name = "./product/create_product.html"
-
 class DetailNameApproval(DetailView):
     template_name = "./product/name_approval/detail.html"
     model = NameApproval
@@ -135,3 +149,76 @@ class CreateNameApproval(CreateView):
         form.instance.product = product
         return super().form_valid(form)
 
+
+class CreateStabilityApproval(CreateView):
+    form_class = StabilityApprovalForm
+    template_name = "./product/create_product.html"
+    model = StabilityApproval
+
+    def form_valid(self, form):
+        product = get_object_or_404(Product, id=self.kwargs['pk'])
+        form.instance.product = product
+        return super().form_valid(form)
+
+class DetailStabilityApproval(DetailView):
+    template_name = "./product/stability_approval/details.html"
+    model = StabilityApproval
+
+    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
+        pk = self.kwargs.get("sa_pk")
+        try:
+            return StabilityApproval.objects.get(pk=pk)
+        except StabilityApproval.DoesNotExist:
+            raise Http404("Stability Approval doesn't exist.")
+    
+class ListStabilityApproval(ListView):
+    model = StabilityApproval
+    context_object_name = "stability_approvals"
+    paginate_by = 200
+    template_name = "./product/stability_approval/index.html"
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return StabilityApproval.objects.filter(
+                Q(batch_no__icontains=query) |
+                Q(study_length__icontains=query)
+            )
+        else:
+            return StabilityApproval.objects.filter(product__pk=self.kwargs["pk"])
+        
+class CreateComparativeApproval(CreateView):
+    form_class = ComparativeApprovalForm
+    template_name = "./product/create_product.html"
+    model = ComparativeApproval
+
+    def form_valid(self, form):
+        product = get_object_or_404(Product, id=self.kwargs['pk'])
+        form.instance.product = product
+        return super().form_valid(form)
+
+class DetailComparativeApproval(DetailView):
+    template_name = "./product/comparative_approval/details.html"
+    model = ComparativeApproval
+
+    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
+        pk = self.kwargs.get("sa_pk")
+        try:
+            return ComparativeApproval.objects.get(pk=pk)
+        except ComparativeApproval.DoesNotExist:
+            raise Http404("Stability Approval doesn't exist.")
+    
+class ListComparativeApproval(ListView):
+    model = ComparativeApproval
+    context_object_name = "comparative_approvals"
+    paginate_by = 200
+    template_name = "./product/comparative_approval/index.html"
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return StabilityApproval.objects.filter(
+                Q(english_name__icontains=query) |
+                Q(arabic_name__icontains=query) |
+                Q(issuance_date__icontains=query)
+            )
+        else:
+            return StabilityApproval.objects.filter(product__pk=self.kwargs["pk"])

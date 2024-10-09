@@ -14,5 +14,8 @@ urlpatterns = [
     path('<pk>/boxapprovals/<ba_pk>',DetailBoxApproval.as_view(),name="detail_boxapproval"),
     path('<pk>/registerationlicense/create',CreateRegisterationLicense.as_view(),name="create_registerationlicense"),
     path('<pk>/registerationlicense/<rl_pk>',DetailRegisterationLicense.as_view(),name="detail_registerationlicense"),
+    path('<pk>/stabilityApproval/create',CreateStabilityApproval.as_view(),name="create_stabilityapproval"),
+    path('<pk>/stabilityApproval/<sa_pk>',DetailStabilityApproval.as_view(),name="detail_stabilityapproval"),
+    path('<pk>/stabilityApproval/',ListStabilityApproval.as_view(),name="list_stabilityapproval"),
     path('create/', CreateProduct.as_view(),name="create_product")
 ]

@@ -1,0 +1,37 @@
+{% extends "../../__layout__.html" %}
+{% load static %}
+{% load sharedutils  %}
+{% block title %}Product | Detail{% endblock %}
+{% block content %}
+<table class="table">
+    {% with object as stabilityapproval %}
+    <tbody>
+        <tr>
+            <th scope="row">Batch No</th>
+            <td>{{ stabilityapproval.batch_no }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Physical Character</th>
+            <td>{{ stabilityapproval.physical_character }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Pack</th>
+            <td> {{ stabilityapproval.pack }}
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Study Length</th>
+            <td> {{ stabilityapproval.study_length }}
+                month{{ stabilityapproval.study_length|pluralize:"s" }}
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Attachment</th>
+            <td><a id="registerationlicense" target="_blank"
+                    href="/media/{{ stabilityapproval.attachment }}">Attachment</a>
+            </td>
+        </tr>
+    </tbody>
+    {% endwith %}
+</table>
+{% endblock %}

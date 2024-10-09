@@ -1,26 +1,8 @@
 from typing import Any, Mapping
 from django import forms
-from django.core.files.base import File
-from django.db.models.base import Model
-from django.forms.utils import ErrorList
 from .models import *
 
-class RegisterationLicenseForm(forms.ModelForm):
-    def __init__(self,*args,**kwargs):
-        super().__init__(*args,**kwargs)
-        self.formname = "Registeration License"
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({'class':'form-control'})
-    class Meta:
-        model = RegisterationLicense
-        fields = "__all__"
-        exclude = ["product"]
-        widgets = {
-            'invalidation_date': forms.DateInput(attrs={'type': 'date'}),
-            'issuance_date': forms.DateInput(attrs={'type': 'date'}),
-        }
-
-class ProductForm(forms.ModelForm):
+class ProductForm():
     def __init__(self, *args,**kwargs):
         super().__init__(*args, **kwargs)
         self.formname = "Product"
@@ -31,34 +13,70 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = "__all__"
 
+class BaseMeta:
+    fields = "__all__"
+    exclude = ["product"]
 
-class NameApprovalForm(forms.ModelForm):
-    def __init__(self, *args,**kwargs):
+class BaseModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.formname = "Name Approval"
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({'class': 'form-control'})
+        
+        # Automatically assign DateInput to any field ending with 'date'
+        for field_name in self.fields:
+            self.fields[field_name].widget.attrs.update({'class': 'form-control'})
+        
+class CustomForm(BaseModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.formname = self.Meta.model.__name__  # Set form name dynamically from model name
 
-    class Meta:
+    class Meta(BaseMeta):
+        model = None  # This will be overridden in child classes
+        widgets = {}
+
+class RegisterationLicenseForm(CustomForm):
+    class Meta(CustomForm.Meta):
+        model = RegisterationLicense
+        widgets = {
+            "issuance_date":forms.DateInput(attrs={'type':'date'}),
+            "invalidation_date":forms.DateInput(attrs={'type':'date'}),
+        }
+
+class NameApprovalForm(CustomForm):
+    class Meta(CustomForm.Meta):
         model = NameApproval
-        exclude = ["product"]
         widgets = {
             "issuance_date":forms.DateInput(attrs={'type':'date'}),
         }
 
-class BoxApprovalForm(forms.ModelForm):
-    def __init__(self, *args,**kwargs):
-        super().__init__(*args, **kwargs)
-        self.formname = "Box Approval"    
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({'class': 'form-control'})
-
-    class Meta:
+class BoxApprovalForm(CustomForm):
+    class Meta(CustomForm.Meta):
         model = BoxApproval
-        fields = "__all__"
-        exclude = ["product"]
         widgets = {
             "issue_date":forms.DateInput(attrs={'type':'date'}),
         }
 
+class StabilityApprovalForm(CustomForm):
+    class Meta(CustomForm.Meta):
+        model = StabilityApproval
 
+class ComparativeApprovalForm(CustomForm):
+
+    class Meta(CustomForm.Meta):
+        model = ComparativeApproval
+
+class CADCApprovalForm(CustomForm):
+    class Meta(CustomForm.Meta):
+        model = CADCApproval
+
+class PriceApprovalForm(CustomForm):
+    class Meta(CustomForm.Meta):
+        model = PriceApproval
+
+class InsertApprovalForm(CustomForm):
+    class Meta(CustomForm.Meta):
+        model = InsertApproval
+
+class LayoutApprovalForm(CustomForm):
+    class Meta(CustomForm.Meta):
+        model = LayoutApproval

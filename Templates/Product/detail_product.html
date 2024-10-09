@@ -246,7 +246,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2"><a href="/products/3/nameapprovals">Show More...</a>
+                                <td colspan="2"><a href="{% url 'product:list_stabilityapproval' product.pk %}">Show More...</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -255,7 +255,7 @@
                         <p class="text-center display-5">No Stability Approval Added Yet...</p>
                         {% endif %}
                     </table>
-                    <a href="" class="btn btn-success">Add Stability Approval</a>
+                    <a href='{% url "product:create_stabilityapproval" product.pk %}' class="btn btn-success">Add Stability Approval</a>
                 </div>
             </div>
         </div>

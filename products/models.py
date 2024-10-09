@@ -97,6 +97,9 @@ class StabilityApproval(models.Model):
 
     def __str__(self):
         return str(self.batch_no) + " | " + str(self.study_length)
+    
+    def get_absolute_url(self):
+        return reverse("product:detail_stabilityapproval", kwargs={"sa_pk": self.pk,"pk":self.product.id})
 
 class ComparativeApproval(models.Model):
     batch_no = models.CharField(max_length=100)
