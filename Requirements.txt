@@ -1,3 +1,4 @@
 Django==4.2.3
 django-auditlog==3.0.0
 whitenoise==6.7.0
+django-import-export==3.3.1
