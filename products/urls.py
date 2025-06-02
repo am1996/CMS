@@ -17,5 +17,8 @@ urlpatterns = [
     path('<pk>/stabilityApproval/create',CreateStabilityApproval.as_view(),name="create_stabilityapproval"),
     path('<pk>/stabilityApproval/<sa_pk>',DetailStabilityApproval.as_view(),name="detail_stabilityapproval"),
     path('<pk>/stabilityApproval/',ListStabilityApproval.as_view(),name="list_stabilityapproval"),
+    path('<pk>/comparativeApproval/create',CreateComparativeApproval.as_view(),name="create_comparativeapproval"),
+    path('<pk>/comparativeApproval/<ca_pk>',DetailComparativeApproval.as_view(),name="detail_comparativeapproval"),
+    path('<pk>/comparativeApproval/',ListComparativeApproval.as_view(),name="list_comparativeapproval"),
     path('create/', CreateProduct.as_view(),name="create_product")
 ]

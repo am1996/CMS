@@ -306,7 +306,7 @@
                         <p class="text-center display-5">No Comparative Approval Added Yet...</p>
                         {% endif %}
                     </table>
-                    <a href="" class="btn btn-success">Add Comparative Approval</a>
+                    <a href='{% url "product:create_comparativeapproval" product.pk %}' class="btn btn-success">Add Comparative Approval</a>
                 </div>
             </div>
         </div>
