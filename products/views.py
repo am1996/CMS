@@ -2,7 +2,7 @@ from typing import Any
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView,ListView,DetailView
 from .forms import *
@@ -222,3 +222,13 @@ class ListComparativeApproval(ListView):
             )
         else:
             return ComparativeApproval.objects.filter(product__pk=self.kwargs["pk"])
+
+def cve_log(request):
+    # Assume the attacker can control the 'key' parameter in the URL query string.
+    key = request.GET.get('key', 'english_name')  # Default to 'english_name' if not provided
+ 
+    # The vulnerable query using values() method with JSONField
+    results = NameApproval.objects.values(key)
+ 
+    # Return the results as JSON
+    return JsonResponse(list(results), safe=False)

@@ -4,6 +4,7 @@ from .views import *
 app_name = "product"
 
 urlpatterns = [
+    
     path('',ListProducts.as_view(),name="products_index"),
     path('<pk>',DetailProduct.as_view(),name="detail_product"),
     path('<pk>/nameapprovals',ListNameApproval.as_view(),name="list_nameapproval"),
@@ -20,5 +21,6 @@ urlpatterns = [
     path('<pk>/comparativeApproval/create',CreateComparativeApproval.as_view(),name="create_comparativeapproval"),
     path('<pk>/comparativeApproval/<ca_pk>',DetailComparativeApproval.as_view(),name="detail_comparativeapproval"),
     path('<pk>/comparativeApproval/',ListComparativeApproval.as_view(),name="list_comparativeapproval"),
-    path('create/', CreateProduct.as_view(),name="create_product")
+    path('create/', CreateProduct.as_view(),name="create_product"),
+    
 ]
