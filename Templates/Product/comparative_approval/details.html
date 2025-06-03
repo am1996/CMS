@@ -1,0 +1,36 @@
+{% extends "../../__layout__.html" %}
+{% load static %}
+{% load sharedutils  %}
+{% block title %}Product | Detail{% endblock %}
+{% block content %}
+<table class="table">
+    {% with object as comparative_approval %}
+    <tbody>
+        <tr>
+            <th scope="row">Batch No</th>
+            <td>{{ comparative_approval.batch_no }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Brand Name</th>
+            <td>{{ comparative_approval.brand_name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Study Reason</th>
+            <td> {{ comparative_approval.study_reason }}
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Raw Material Supplier Name</th>
+            <td> {{ comparative_approval.raw_material_supplier_name }}
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Attachment</th>
+            <td><a id="registerationlicense" target="_blank"
+                    href="/media/{{ comparative_approval.attachment }}">Attachment</a>
+            </td>
+        </tr>
+    </tbody>
+    {% endwith %}
+</table>
+{% endblock %}

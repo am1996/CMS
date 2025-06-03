@@ -190,7 +190,8 @@ class CreateComparativeApproval(CreateView):
     form_class = ComparativeApprovalForm
     template_name = "./product/create_product.html"
     model = ComparativeApproval
-
+    def get_absolute_url(self):
+        return f"/product/{self.object.product.pk}"
     def form_valid(self, form):
         product = get_object_or_404(Product, id=self.kwargs['pk'])
         form.instance.product = product
@@ -199,7 +200,6 @@ class CreateComparativeApproval(CreateView):
 class DetailComparativeApproval(DetailView):
     template_name = "./product/comparative_approval/details.html"
     model = ComparativeApproval
-
     def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
         pk = self.kwargs.get("sa_pk")
         try:
@@ -215,10 +215,10 @@ class ListComparativeApproval(ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         if query:
-            return StabilityApproval.objects.filter(
+            return ComparativeApproval.objects.filter(
                 Q(english_name__icontains=query) |
                 Q(arabic_name__icontains=query) |
                 Q(issuance_date__icontains=query)
             )
         else:
-            return StabilityApproval.objects.filter(product__pk=self.kwargs["pk"])
+            return ComparativeApproval.objects.filter(product__pk=self.kwargs["pk"])
