@@ -11,11 +11,10 @@ app_name = "CMS"
 
 urlpatterns = [
     path('',TemplateView.as_view(template_name="./main/index.html"),name="index"),
-    path('cve/', cve_log, name="list_cve"),
     path('admin/', admin.site.urls),
     path('login/', CustomLoginview.as_view(),name="login"),
     path('logout/', LogoutView.as_view(),name="logout"),
-    path('products/',include("products.urls"))
+    path('products/',include("products.urls")),
 ]
 
 if settings.DEBUG:

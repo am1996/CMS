@@ -223,12 +223,3 @@ class ListComparativeApproval(ListView):
         else:
             return ComparativeApproval.objects.filter(product__pk=self.kwargs["pk"])
 
-def cve_log(request):
-    # Assume the attacker can control the 'key' parameter in the URL query string.
-    key = request.GET.get('key', 'english_name')  # Default to 'english_name' if not provided
- 
-    # The vulnerable query using values() method with JSONField
-    results = NameApproval.objects.values(key)
- 
-    # Return the results as JSON
-    return JsonResponse(list(results), safe=False)
