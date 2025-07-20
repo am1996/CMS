@@ -1,0 +1,40 @@
+{% extends "../../__layout__.html" %}
+{% load static %}
+{% block content %}
+<table class="table">
+    <tbody>
+        {% with object as cadc_approval %}
+        <tr>
+            <th scope="row">SIC</th>
+            <td>{{ cadc_approval.sic }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Batch No</th>
+            <td>{{ cadc_approval.batch_no }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Result</th>
+            <td>{{ cadc_approval.result }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Issue Date</th>
+            <td>{{ cadc_approval.issue_date }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Sampling Reason</th>
+            <td>{{ cadc_approval.sampling_reason }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Upload Date</th>
+            <td>{{ cadc_approval.upload_date }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Attachment</th>
+            <td><a id="cadc_approval" target="_blank"
+                    href="/media/{{ cadc_approval.attachment }}">Attachment</a>
+            </td>
+        </tr>
+        {% endwith %}
+    </tbody>
+</table>
+{% endblock %}

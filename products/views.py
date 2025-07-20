@@ -223,3 +223,41 @@ class ListComparativeApproval(ListView):
         else:
             return ComparativeApproval.objects.filter(product__pk=self.kwargs["pk"])
 
+
+class CreateCADCApproval(CreateView):
+    form_class = CADCApprovalForm
+    template_name = "./product/create_product.html"
+    model = CADCApproval
+    def get_absolute_url(self):
+        return f"/product/{self.object.product.pk}"
+    def form_valid(self, form):
+        product = get_object_or_404(Product, id=self.kwargs['pk'])
+        form.instance.product = product
+        return super().form_valid(form)
+
+class DetailCADCApproval(DetailView):
+    template_name = "./product/cadc_approval/details.html"
+    model = CADCApproval
+    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
+        pk = self.kwargs.get("ca_pk")
+        try:
+            return CADCApproval.objects.get(pk=pk)
+        except CADCApproval.DoesNotExist:
+            raise Http404("CADC Approval doesn't exist.")
+
+class ListCADCApproval(ListView):
+    model = CADCApproval
+    context_object_name = "cadc_approvals"
+    paginate_by = 200
+    template_name = "./product/cadc_approval/index.html"
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return ComparativeApproval.objects.filter(
+                Q(english_name__icontains=query) |
+                Q(arabic_name__icontains=query) |
+                Q(issuance_date__icontains=query)
+            )
+        else:
+            return ComparativeApproval.objects.filter(product__pk=self.kwargs["pk"])
+
