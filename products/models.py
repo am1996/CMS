@@ -115,18 +115,18 @@ class ComparativeApproval(models.Model):
 class CADCApproval(models.Model):
     sic = models.CharField(max_length=100)
     batch_no = models.CharField(max_length=100)
-    result = models.CharField(choices=[
+    result = models.BooleanField(choices=[
         (True, "Conform"),
         (False, "Not Conform")
     ],default=False,max_length=1)
     issue_date = models.DateField()
-    sampling_reason = models.CharField(choices=[
+    sampling_reason = models.IntegerField(choices=[
         (1,"Pilot"),
         (2,"First Three Production Batches"),
         (3,"Variation"),
         (4,"Random"),
         (5,"Other")
-    ],default=4,max_length=1)
+    ],default=4)
     upload_date = models.DateTimeField(auto_now_add=True)
     attachment = models.FileField(upload_to=upload_to)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)

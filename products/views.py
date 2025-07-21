@@ -230,6 +230,8 @@ class CreateCADCApproval(CreateView):
     model = CADCApproval
     def get_absolute_url(self):
         return f"/product/{self.object.product.pk}"
+    def get_success_url(self):
+        return f"/product/{self.object.product.pk}/cadcApproval/{self.object.pk}"
     def form_valid(self, form):
         product = get_object_or_404(Product, id=self.kwargs['pk'])
         form.instance.product = product

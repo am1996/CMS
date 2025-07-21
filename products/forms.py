@@ -67,6 +67,10 @@ class ComparativeApprovalForm(CustomForm):
 
 class CADCApprovalForm(CustomForm):
     class Meta(CustomForm.Meta):
+        #make sure Issue Date is a date input
+        widgets = {
+            "issue_date":forms.DateInput(attrs={'type':'date'}),
+        }
         model = CADCApproval
 
 class PriceApprovalForm(CustomForm):
