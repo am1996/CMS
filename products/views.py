@@ -191,7 +191,7 @@ class CreateComparativeApproval(CreateView):
     template_name = "./product/create_product.html"
     model = ComparativeApproval
     def get_absolute_url(self):
-        return f"/product/{self.object.product.pk}"
+        return f"/products/{self.object.product.pk}"
     def form_valid(self, form):
         product = get_object_or_404(Product, id=self.kwargs['pk'])
         form.instance.product = product
@@ -228,10 +228,8 @@ class CreateCADCApproval(CreateView):
     form_class = CADCApprovalForm
     template_name = "./product/create_product.html"
     model = CADCApproval
-    def get_absolute_url(self):
-        return f"/product/{self.object.product.pk}"
     def get_success_url(self):
-        return f"/product/{self.object.product.pk}/cadcApproval/{self.object.pk}"
+        return f"/products/{self.object.product.pk}/cadcApproval/{self.object.pk}"
     def form_valid(self, form):
         product = get_object_or_404(Product, id=self.kwargs['pk'])
         form.instance.product = product
