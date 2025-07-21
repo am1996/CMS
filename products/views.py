@@ -226,7 +226,7 @@ class ListComparativeApproval(ListView):
 
 class CreateCADCApproval(CreateView):
     form_class = CADCApprovalForm
-    template_name = "./product/create_product.html"
+    template_name = "./Product/create_product.html"
     model = CADCApproval
     def get_success_url(self):
         return f"/products/{self.object.product.pk}/cadcApproval/{self.object.pk}"
@@ -236,7 +236,7 @@ class CreateCADCApproval(CreateView):
         return super().form_valid(form)
 
 class DetailCADCApproval(DetailView):
-    template_name = "./product/cadc_approval/details.html"
+    template_name = "./product/cadc_approval/detail.html"
     model = CADCApproval
     def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
         pk = self.kwargs.get("ca_pk")

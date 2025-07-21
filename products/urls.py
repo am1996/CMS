@@ -3,8 +3,7 @@ from .views import *
 
 app_name = "product"
 
-urlpatterns = [
-    
+urlpatterns = [    
     path('',ListProducts.as_view(),name="products_index"),
     path('<pk>',DetailProduct.as_view(),name="detail_product"),
     path('<pk>/nameapprovals',ListNameApproval.as_view(),name="list_nameapproval"),

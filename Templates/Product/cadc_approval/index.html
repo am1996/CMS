@@ -1,0 +1,86 @@
+{% extends "../../__layout__.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static './css/datatable.min.css' %}">
+{% endblock styles %}
+{% block title %} Product | Index{% endblock %}
+{% block navbarlinksright %}
+<li class="nav-item"><a href="#search" class="nav-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+      </svg>
+</a></li>
+{% endblock navbarlinksright %}
+{% block content %}
+<div class="container-fluid">
+    <h1 class="my-3">Box Approvals: </h1>
+    <table id="boxapprovalsTable" class="table" style="width:100%">
+        <thead>
+            <tr>
+                <th>Batch No</th>
+                <th>Result</th>
+                <th>Issue Date</th>
+                <th>Attachment</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- TODO -->
+        {% for cadc_approval in cadc_approvals %}
+            <tr>
+                <td>
+                    <a href="{% url 'product:list_boxapproval' pk=cadc_approval.pk %}">
+                    {{ cadc_approval.batch_no }}
+                    </a>
+                </td>
+                <td>{{ cadc_approval.result }}</td>
+                <td>{{ cadc_approval.issue_date }}</td>
+                <td><a target="_blank" href="/media/{{ cadc_approval.attachment }}">Attachment</a></td>
+            </tr>
+            {% empty %}
+            <td>No Box Approvals</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% include "../../bits/search_window.html" %}
+{% include "../../bits/creation_footer.html" %}
+{% endblock %}
+{% block scripts %}
+<script src="{% static './js/datatable.min.js' %}"></script>
+<script>
+    let boxapprovalsTable = new DataTable('#boxapprovalsTable');
+    $(function () {
+        $('a[href="#search"]').on('click', function(event) {
+            event.preventDefault();
+            $('#search').addClass('open');
+            $('#search > form > input[type="search"]').focus();
+        });
+        
+        $('#search, #search button.close').on('click keyup', function(event) {
+            if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
+                $(this).removeClass('open');
+            }
+        });
+    });
+</script>
+{% endblock scripts %}
