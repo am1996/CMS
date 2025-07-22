@@ -13,7 +13,7 @@
 {% endblock navbarlinksright %}
 {% block content %}
 <div class="container-fluid">
-    <h1 class="my-3">Box Approvals: </h1>
+    <h1 class="my-3">CADC Approvals for: </h1>
     <table id="boxapprovalsTable" class="table" style="width:100%">
         <thead>
             <tr>
@@ -28,16 +28,16 @@
         {% for cadc_approval in cadc_approvals %}
             <tr>
                 <td>
-                    <a href="{% url 'product:list_boxapproval' pk=cadc_approval.pk %}">
+                    <a href="{% url 'product:list_cadcApproval' pk=cadc_approval.pk %}">
                     {{ cadc_approval.batch_no }}
                     </a>
                 </td>
-                <td>{{ cadc_approval.result }}</td>
+                <td>{% if cadc_approval.result == True %}Conform{% else %}Not Conform{% endif %}</td>
                 <td>{{ cadc_approval.issue_date }}</td>
                 <td><a target="_blank" href="/media/{{ cadc_approval.attachment }}">Attachment</a></td>
             </tr>
             {% empty %}
-            <td>No Box Approvals</td>
+            <td>No CADC Approvals</td>
             <td></td>
             <td></td>
             <td></td>

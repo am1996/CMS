@@ -254,10 +254,10 @@ class ListCADCApproval(ListView):
         query = self.request.GET.get('q')
         if query:
             return ComparativeApproval.objects.filter(
-                Q(english_name__icontains=query) |
-                Q(arabic_name__icontains=query) |
-                Q(issuance_date__icontains=query)
+                Q(batch_no__icontains=query) |
+                Q(sic__icontains=query) |
+                Q(sampling_reason__icontains=query)
             )
         else:
-            return ComparativeApproval.objects.filter(product__pk=self.kwargs["pk"])
+            return CADCApproval.objects.filter(product__pk=self.kwargs["pk"])
 
