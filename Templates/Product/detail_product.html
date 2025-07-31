@@ -319,7 +319,7 @@
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#d_details">
                 <div class="accordion-body">
-                    {% if product.cadcaaproval_set.last != None %}
+                    {% if product.cadcapproval_set.last != None %}
                     <table class="table">
                         {% with product.cadcapproval_set.last as cadcapproval %}
                         <tbody>
@@ -354,7 +354,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2"><a href="/products/3/nameapprovals">Show More...</a>
+                                <td colspan="2"><a href="{% url 'product:list_cadcApproval' product.pk %}">Show More...</a>
                                 </td>
                             </tr>
                         </tbody>

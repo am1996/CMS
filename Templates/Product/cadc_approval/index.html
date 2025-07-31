@@ -17,6 +17,7 @@
     <table id="boxapprovalsTable" class="table" style="width:100%">
         <thead>
             <tr>
+                <th>Product Name</th>
                 <th>Batch No</th>
                 <th>Result</th>
                 <th>Issue Date</th>
@@ -28,6 +29,9 @@
         {% for cadc_approval in cadc_approvals %}
             <tr>
                 <td>
+                    {{ cadc_approval.product.name }}
+                </td>
+                <td>
                     <a href="{% url 'product:list_cadcApproval' pk=cadc_approval.pk %}">
                     {{ cadc_approval.batch_no }}
                     </a>
@@ -37,10 +41,12 @@
                 <td><a target="_blank" href="/media/{{ cadc_approval.attachment }}">Attachment</a></td>
             </tr>
             {% empty %}
-            <td>No CADC Approvals</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <tr>
+                <td>No CADC Approvals</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
@@ -68,7 +74,17 @@
 {% block scripts %}
 <script src="{% static './js/datatable.min.js' %}"></script>
 <script>
-    let boxapprovalsTable = new DataTable('#boxapprovalsTable');
+    let boxapprovalsTable = new DataTable('#boxapprovalsTable',{
+        columns: [
+            { data: "id" },
+            { data: "title" },
+            { data: "status" },
+            { data: "created_at" },
+            { data: "actions" }
+        ],
+        "defaultContent": "-",
+        "targets": "_all"
+    });
     $(function () {
         $('a[href="#search"]').on('click', function(event) {
             event.preventDefault();
